@@ -5,10 +5,19 @@ def artifact_sorter(artifacts: list[dict]) -> list[dict]:
 def power_filter(mages: list[dict], min_power: int) -> list[dict]:
     return filter(lambda dict_: dict_['power'] >= min_power, mages)
 
-# def spell_transformer(spells: list[str]) -> list[str]:
+
+def spell_transformer(spells: list[str]) -> list[str]:
+    return list(map(lambda spell: "* " + spell + " *", spells))
 
 
-# def mage_stats(mages: list[dict]) -> dict:
+def mage_stats(mages: list[dict]) -> dict:
+    total_power: int = sum(map(lambda dict_: dict_['power'], mages)) 
+    avg_power: float = round((total_power / len(mages)), 2)
+    return {
+        'max_power': max(mages, key=lambda dict_: dict_['power']),
+        'min_power': min(mages, key=lambda dict_: dict_['power']),
+        'avg_power': avg_power
+    }
 
 
 if __name__ == "__main__":
@@ -36,4 +45,14 @@ if __name__ == "__main__":
     print("=== Mages with power ge 75 ===")
     for x in power_filter(mages, 75):
         print(x)
+    print()
+
+    print("=== Transform spell names ===")
+    print(spell_transformer(spells))
+    print()
+
+    print("===  Calculate statistics ===")
+    stats: list[dict] = mage_stats(mages)
+    for x in stats:
+        print(f"{x}: {stats[x]}")
     print()
