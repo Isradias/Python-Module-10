@@ -11,7 +11,7 @@ def spell_transformer(spells: list[str]) -> list[str]:
 
 
 def mage_stats(mages: list[dict]) -> dict:
-    total_power: int = sum(map(lambda dict_: dict_['power'], mages)) 
+    total_power: int = sum(map(lambda dict_: dict_['power'], mages))
     avg_power: float = round((total_power / len(mages)), 2)
     return {
         'max_power': max(mages, key=lambda dict_: dict_['power']),
