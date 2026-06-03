@@ -29,7 +29,22 @@ def power_validator(min_power: int) -> Callable:
     return decorator
 
 
-# def retry_spell(max_attempts: int) -> Callable:
+def retry_spell(max_attempts: int) -> Callable:
+    def decorator(func: Callable) -> Callable:
+        @wraps(func)
+        def inner(*args, **kwargs) -> str:
+            attempt: int = 1
+            while attempt <= max_attempts:
+                try:
+                    return func(*args, **kwargs)
+                except Exception:
+                    print("Spell failed, retrying... "
+                          f"({attempt}/{max_attempts})")
+                    attempt += 1
+            return f"Spell casting failed after {max_attempts} attempts"
+        return inner
+
+    return decorator
 
 
 class MageGuild:
@@ -46,7 +61,16 @@ class MageGuild:
 
     @power_validator(10)
     def cast_spell(self, spell_name: str, power: int) -> str:
+        if power < 0:
+            raise ValueError("Invalid power")
         return f"Successfully cast {spell_name} with {power} power"
+
+
+@retry_spell(3)
+def fireball(power: int) -> str:
+    if power < 0:
+        raise ValueError("Invalid power")
+    return f"Successfully cast Fireball with {power} power"
 
 
 @spell_timer
@@ -59,13 +83,24 @@ def test_spell_timer() -> None:
         print(0)
         return n
 
-    count(15)
+    count(10)
 
 
 if __name__ == "__main__":
-    # print(f"=== Testing {test_spell_timer.__name__} ===")
-    # test_spell_timer()
-    # print(MageGuild.validate_mage_name("as"))
+    print(f"=== Testing {test_spell_timer.__name__} ===")
+    test_spell_timer()
+    print()
+
+    print(f"=== Testing {MageGuild.validate_mage_name.__name__} ===")
+    print(f"{MageGuild.validate_mage_name('as')}")
+    print()
+
+    print("=== Testing Power Validator ===")
     strange = MageGuild()
     print(strange.cast_spell('Fireball', 20))
     print(strange.cast_spell('Waterball', 5))
+    print()
+
+    print("=== Testing Retry Validator")
+    print(fireball(10))
+    print(fireball(-10))

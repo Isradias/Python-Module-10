@@ -1,7 +1,7 @@
-from typing import Callable, Any
+from typing import Any
 from functools import reduce, partial, lru_cache, singledispatch
 from operator import add, mul
-
+from collections.abc import Callable
 
 def spell_reducer(spells: list[int], operation: str) -> int:
     if len(spells) == 0:
@@ -16,6 +16,7 @@ def spell_reducer(spells: list[int], operation: str) -> int:
         return reduce(max, spells)
     if operation == "min":
         return reduce(min, spells)
+    return -1
 
 
 def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:

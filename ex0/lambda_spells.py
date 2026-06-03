@@ -1,9 +1,12 @@
+from typing import Any
+
+
 def artifact_sorter(artifacts: list[dict]) -> list[dict]:
     return sorted(artifacts, key=lambda dict_: dict_['power'], reverse=True)
 
 
 def power_filter(mages: list[dict], min_power: int) -> list[dict]:
-    return filter(lambda dict_: dict_['power'] >= min_power, mages)
+    return list(filter(lambda dict_: dict_['power'] >= min_power, mages))
 
 
 def spell_transformer(spells: list[str]) -> list[str]:
@@ -52,7 +55,7 @@ if __name__ == "__main__":
     print()
 
     print("===  Calculate statistics ===")
-    stats: list[dict] = mage_stats(mages)
+    stats: dict[Any, Any] = mage_stats(mages)
     for x in stats:
         print(f"{x}: {stats[x]}")
     print()

@@ -1,10 +1,11 @@
-from typing import Callable, Any
+from typing import Any
+from collections.abc import Callable
 
 
 def mage_counter() -> Callable:
     nb_calls: int = 0
 
-    def counter() -> None:
+    def counter() -> int:
         nonlocal nb_calls
         nb_calls += 1
         return nb_calls
@@ -83,9 +84,9 @@ def test_accumulator(base: int, addition) -> None:
 
 def test_factory():
     print("=== Testing Enchantment Factory ===")
-    enchant_shocking: Callable = enchantment_factory("Shocking")
-    enchant_windy: Callable = enchantment_factory("Windy")
-    enchant_flowing: Callable = enchantment_factory("Flowing")
+    enchant_shocking = enchantment_factory("Shocking")
+    enchant_windy = enchantment_factory("Windy")
+    enchant_flowing = enchantment_factory("Flowing")
 
     print(enchant_shocking("Sword"))
     print(enchant_shocking("Cloack"))
@@ -96,7 +97,7 @@ def test_factory():
 
 def test_memory():
     print("=== Testing Memory Vault ===")
-    memory: Callable = memory_vault()
+    memory = memory_vault()
     print(memory['store']("A", "Pass"))
     print(memory['store']("B", "Pass2"))
     print()
