@@ -86,11 +86,10 @@ def test_partial_enchanter() -> None:
 
 def test_memoized_fibonacci() -> None:
     print("=== Testing memoized fibonacci ===")
+    print(f"n = 0: {memoized_fibonacci(0)}")
     print(f"n = 1: {memoized_fibonacci(1)}")
-    print(f"n = 2: {memoized_fibonacci(2)}")
-    print(f"n = 3: {memoized_fibonacci(3)}")
-    print(f"n = 4: {memoized_fibonacci(4)}")
-    print(f"n = 5: {memoized_fibonacci(5)}")
+    print(f"n = 10: {memoized_fibonacci(10)}")
+    print(f"n = 15: {memoized_fibonacci(15)}")
     print(memoized_fibonacci.cache_info())
     memoized_fibonacci.cache_clear()
     print()
